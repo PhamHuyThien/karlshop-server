@@ -1,0 +1,70 @@
+<th:block th:replace="~{/layout/_header.html}"></th:block>
+<body>
+	<th:block th:if="${session.account!=null}">
+		<script>
+			window.location.href = "/";
+		</script>
+	</th:block>
+	<main class="d-flex w-100">
+		<div class="container d-flex flex-column">
+			<div class="row vh-100">
+				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+					<div class="d-table-cell align-middle">
+
+						<div class="text-center mt-4">
+							<h1 class="h2">Chào mừng trở lại</h1>
+							<p class="lead">Đăng nhập vào tài khoản của bạn để tiếp tục.</p>
+						</div>
+
+						<div class="card">
+							<div class="card-body">
+								<div class="m-sm-4">
+									<div class="text-center">
+										<img src="img/avatars/avatar.jpg" alt="Charles Hall"
+											class="img-fluid rounded-circle" width="132" height="132" />
+									</div>
+									<form method="POST" th:action="@{/login}"
+										th:object="${loginDTO}">
+										<div class="mb-3">
+											<label class="form-label">Tài khoản</label> <input
+												class="form-control form-control-lg" type="text"
+												th:field="*{username}" placeholder="" />
+											<any th:errors="*{username}" style="color:red"></any>
+										</div>
+										<div class="mb-3">
+											<label class="form-label">Mật khẩu</label> <input
+												class="form-control form-control-lg" type="password"
+												th:field="*{password}" placeholder="" />
+											<any th:errors="*{password}" style="color:red"></any>
+											<small><br /> <a href="#">Quên mật khẩu?</a> </small>
+										</div>
+										<div class="sb-3">
+											<label class="form-check"> <input
+												class="form-check-input" type="checkbox"
+												th:field="*{rememberMe}" name="remember-me" checked>
+												<span class="form-check-label"> Ghi nhớ đăng nhập?</span>
+											</label>
+										</div>
+										<div class="st-3 sm-3" id="error" th:if="${#request.getParameter('error')!=null}">
+											<div class="alert
+											alert-danger" role="alert" id="error-text">Tài khoản hoặc mật khẩu không chính xác!</div>
+										</div>
+										<div class="text-center mt-3">
+											<button type="submit" class="btn btn-lg btn-primary">Đăng
+												nhập</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<script src="js/app.js"></script>
+	<script>
+	</script>
+</body>
+</html>

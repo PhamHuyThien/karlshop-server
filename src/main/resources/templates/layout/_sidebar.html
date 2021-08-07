@@ -1,0 +1,60 @@
+
+<nav id="sidebar" class="sidebar js-sidebar">
+	<div class="sidebar-content js-simplebar">
+		<a class="sidebar-brand" href="/"> <span class="align-middle">KARLSHOP</span>
+		</a>
+
+		<ul class="sidebar-nav">
+			<li class="sidebar-header">Trang</li>
+
+			<li class="sidebar-item active"><a class="sidebar-link" href="/">
+					<i class="align-middle" data-feather="sliders"></i> <span
+					class="align-middle">Trang chủ</span>
+			</a></li>
+			<li class="sidebar-header">Tài khoản</li>
+				<th:block sec:authorize="isAuthenticated()">
+					<li class="sidebar-item"><a class="sidebar-link"
+						href="/profile"> <i class="align-middle"
+							data-feather="user"></i> <span class="align-middle">Tài
+								khoản</span>
+					</a></li>
+				</th:block>
+				<th:block sec:authorize="!isAuthenticated()">
+					<li class="sidebar-item"><a class="sidebar-link" href="/login">
+							<i class="align-middle" data-feather="log-in"></i> <span
+							class="align-middle">Đăng Nhập</span>
+					</a></li>
+
+					<li class="sidebar-item"><a class="sidebar-link"
+						href="/register"> <i class="align-middle"
+							data-feather="user-plus"></i> <span class="align-middle">Đăng
+								kí</span>
+					</a></li>
+				</th:block>
+
+			<th:block sec:authorize="hasRole('ROLE_ADMIN')">
+				<li class="sidebar-header">Admin Panel</li>
+				<li class="sidebar-item"><a class="sidebar-link"
+					href="/admin/manager-category"> <i class="align-middle"
+						data-feather="box"></i> <span class="align-middle">Quản lý
+							danh mục</span>
+				</a></li>
+				<li class="sidebar-item"><a class="sidebar-link"
+					href="/admin/manager-product"> <i class="align-middle"
+						data-feather="server"></i> <span class="align-middle">Quản
+							lý sản phẩm</span>
+				</a></li>
+				<li class="sidebar-item"><a class="sidebar-link"
+					href="/admin/manager-discount"> <i class="align-middle"
+						data-feather="trending-down"></i> <span class="align-middle">Quản
+							lý mã giảm giá</span>
+				</a></li>
+				<li class="sidebar-item"><a class="sidebar-link"
+					href="/admin/manager-account"> <i class="align-middle"
+						data-feather="user"></i> <span class="align-middle">Quản lý
+							tài khoản</span>
+				</a></li>
+			</th:block>
+		</ul>
+	</div>
+</nav>

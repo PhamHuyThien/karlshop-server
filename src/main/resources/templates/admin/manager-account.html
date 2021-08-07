@@ -1,0 +1,178 @@
+<th:block th:replace="~{/layout/_header.html}"></th:block>
+<body>
+	<div class="wrapper">
+		<!-- sidebar -->
+		<th:block th:replace="~{/layout/_sidebar.html}"></th:block>
+		<!-- sidebar -->
+		<div class="main">
+			<!-- headerbar -->
+			<th:block th:replace="~{/layout/_headerbar.html}"></th:block>
+			<!-- headerbar -->
+
+			<main class="content">
+				<div class="container-fluid p-0">
+					<div class="mb-3">
+						<h1 class="h3 d-inline align-middle">Quản lý danh mục</h1>
+					</div>
+					<div class="row">
+						<div class="col-sm-5 col-xs-12">
+							<div class="card">
+								<div class="card-header">
+									<h5 class="card-title">Chỉnh sửa danh mục</h5>
+								</div>
+								<div class="card-body">
+									<form method="POST" th:action="@{?add}"
+										th:object="${accountDTO}">
+										<div class="form-group">
+											<label for="">Id:</label> <input type="text" th:field="*{id}"
+												class="form-control" placeholder="" readonly="readonly"/>
+										</div>
+										<div class="form-group">
+											<label for="">Tài khoản:</label> <input type="text"
+												th:field="*{username}" class="form-control" placeholder="" />
+											<any th:errors="*{username}" style="color:red"></any>
+										</div>
+										<div class="form-group" style="display: none">
+											<label for="">Mật khẩu:</label> <input type="hidden"
+												th:field="*{password}" class="form-control" placeholder="" />
+											<any th:errors="*{password}" style="color:red"></any>
+										</div>
+										<div class="form-group">
+											<label for="">Tên:</label> <input type="text"
+												th:field="*{lastname}" class="form-control" placeholder="" />
+											<any th:errors="*{lastname}" style="color:red"></any>
+										</div>
+										<div class="form-group">
+											<label for="">Họ:</label> <input type="text"
+												th:field="*{firstname}" class="form-control" placeholder="" />
+											<any th:errors="*{firstname}" style="color:red"></any>
+										</div>
+										<div class="form-group">
+											<label for="">Email:</label> <input type="text"
+												th:field="*{email}" class="form-control" placeholder="" />
+											<any th:errors="*{email}" style="color:red"></any>
+										</div>
+										<div class="form-group">
+											<label for="">Quyền:</label> <select
+												th:field="*{role}" class="form-select mb-3">
+												<option value="0">Khách hàng</option>
+												<option value="1">Quản lý</option>
+											</select>
+											<any th:errors="*{role}" style="color:red"></any>
+										</div>
+										<div class="form-group">
+											<label for="">Tình trạng:</label> <select
+												th:field="*{status}" class="form-select mb-3">
+												<option value="true">Kích hoạt</option>
+												<option value="false">Bỏ kích hoạt</option>
+											</select>
+											<any th:errors="*{status}" style="color:red"></any>
+										</div>
+										<div class="st-3" th:if="${success}">
+											<div class="alert alert-success" role="alert">[[${success}]]</div>
+										</div>
+										<div class="st-3" th:if="${error}">
+											<div class="alert
+											alert-danger" role="alert">[[${error}]]</div>
+										</div>
+										<input type="hidden" name="page" th:attr="value=${page}" />
+										<div class="mt-5">
+											<button class="btn btn-success">[[${edit==-1?"Thêm":"Sửa"}]]</button>
+											<button class="btn btn-danger" formaction="?"
+												formmethod="get">Reset</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-7 col-xs-12">
+							<div class="card">
+								<div class="card-header">
+									<h5 class="card-title">Danh sách tài khoản</h5>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-striped">
+											<thead>
+												<tr>
+													<th scope="col"><a
+														th:attr="href=${'?page='+page+'&col=id&type='+type}">Id</a></th>
+													<th scope="col"><a
+														th:attr="href=${'?page='+page+'&col=username&type='+type}">Tài khoản</a></th>
+													<th scope="col"><a
+														th:attr="href=${'?page='+page+'&col=firstname&type='+type}">Họ tên</a></th>
+													<th scope="col"><a
+														th:attr="href=${'?page='+page+'&col=email&type='+type}">Email</a></th>
+														<th scope="col"><a
+														th:attr="href=${'?page='+page+'&col=role&type='+type}">Quyền</a></th>
+													<th scope="col"><a
+														th:attr="href=${'?page='+page+'&col=status&type='+type}">Tình trạng</a></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="account: ${listAccounts}"
+													onclick="edit(this);">
+													<th scope="row">[[${account.id}]]</th>
+													<td>[[${account.username}]]</td>
+													<td>[[${account.firstname+" "+account.lastname}]]</td>
+													<td>[[${account.email}]]</td>
+													<td>[[${account.role==0?"Khách hàng":"Quản lý"}]]</td>
+													<td>[[${account.status?"Kích hoạt":"Bỏ kích hoạt"}]]</td>
+												</tr>
+											</tbody>
+										</table>
+										<div class="row">
+											<div class="col-8">
+												<nav aria-label="Page navigation example">
+													<ul class="pagination">
+														<th:block th:if="${page-1<0?false:true}">
+															<li class="page-item"><a class="page-link"
+																th:attr="href=${'?page='+(page-1)}">Trở lại</a></li>
+															<li class="page-item"><a class="page-link"
+																th:attr="href=${'?page='+(page-1)}">[[${page}]]</a></li>
+														</th:block>
+														<li class="page-item"><a class="page-link"
+															th:attr="href=${'?page='+(page)}"
+															style="pointer-events: none; color: black">[[${page+1}]]</a></li>
+														<li class="page-item"><a class="page-link"
+															th:attr="href=${'?page='+(page+1)}">[[${page+2}]]</a></li>
+														<li class="page-item"><a class="page-link"
+															th:attr="href=${'?page='+(page+1)}">Tiếp theo</a></li>
+													</ul>
+
+												</nav>
+											</div>
+											<div class="col-4 text-end">
+												<form>
+													<input type="hidden" name="page" th:attr="value=${page}">
+													<button class="btn btn-primary">Cập nhật</button>
+												</form>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+			<!-- footer -->
+			<th:block th:replace="~{/layout/_footer.html}"></th:block>
+			<!-- footer -->
+		</div>
+	</div>
+	<script>
+		const search = new URLSearchParams(window.location.search);
+		function edit(tr) {
+			let id = tr.children[0].innerText;
+			let page = search.get("page");
+			page = page == null ? 0 : page;
+			window.location.href = "?page=" + page + "&edit=" + id;
+		}
+	</script>
+	<script src="/js/app.js"></script>
+
+</body>
+
+</html>
